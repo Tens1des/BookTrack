@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var store: DataStore
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            LibraryView()
+                .tabItem { Label("Library", systemImage: "books.vertical") }
+            StatsGoalsView()
+                .tabItem { Label("Stats", systemImage: "chart.bar") }
+            ProfileSettingsView()
+                .tabItem { Label("Profile", systemImage: "person.circle") }
         }
-        .padding()
     }
 }
 
