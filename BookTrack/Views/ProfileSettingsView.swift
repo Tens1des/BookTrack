@@ -7,8 +7,7 @@ struct ProfileSettingsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                ProfileHeaderView()
-                    .onTapGesture { showEditProfileSheet = true }
+                ProfileHeaderView(showEditProfile: $showEditProfileSheet)
 
                 ProfileSectionHeader(title: "READING STATS")
                 ReadingStatsCard(

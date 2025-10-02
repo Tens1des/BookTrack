@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileHeaderView: View {
     @EnvironmentObject var store: DataStore
+    @Binding var showEditProfile: Bool
     
     var body: some View {
         VStack(spacing: 16) {
@@ -23,7 +24,7 @@ struct ProfileHeaderView: View {
                 .foregroundStyle(.white.opacity(0.7))
 
             Button("Edit Profile") {
-                // Action to open edit profile sheet/view
+                showEditProfile = true
             }
             .font(.subheadline).bold()
             .padding(.horizontal, 20)
