@@ -109,8 +109,15 @@ struct AddBookView: View {
             }
             .navigationTitle("Add Book")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) { Button(action: { dismiss() }) { Image(systemName: "xmark") } }
-                ToolbarItem(placement: .topBarTrailing) { Button("Save", action: save).buttonStyle(.borderedProminent) }
+                ToolbarItem(placement: .topBarLeading) { 
+                    Button(action: { dismiss() }) { 
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.secondary)
+                    } 
+                }
+                ToolbarItem(placement: .topBarTrailing) { 
+                    GradientButton(title: "Save", action: save)
+                }
             }
         }
     }

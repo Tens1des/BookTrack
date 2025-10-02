@@ -19,6 +19,18 @@ struct ContentView: View {
             ProfileSettingsView()
                 .tabItem { Label("Profile", systemImage: "person.circle") }
         }
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(.systemBackground),
+                    Color(.systemGray6).opacity(0.3),
+                    Color(.systemBackground).opacity(0.9)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
     }
 }
 
