@@ -57,12 +57,16 @@ struct BookDetailView: View {
 
     private func progressCard(_ book: Book) -> some View {
         Card {
-            HStack { Text("Reading Progress").font(.subheadline).bold(); Spacer(); Text("\(book.progressPercent)%").foregroundStyle(.tint) }
-            LinearProgressBar(progress: Double(book.progressPercent) / 100).frame(height: 8)
             HStack {
-                VStack(alignment: .leading) { Text("Current Page").font(.caption).foregroundStyle(.secondary); Text("\(book.currentPage ?? 0)").font(.title3).bold() }
+                VStack(alignment: .leading) { 
+                    Text("Current Page").font(.caption).foregroundStyle(.secondary)
+                    Text("\(book.currentPage ?? 0)").font(.title3).bold() 
+                }
                 Spacer()
-                VStack(alignment: .trailing) { Text("Total Pages").font(.caption).foregroundStyle(.secondary); Text("\(book.totalPages ?? 0)").font(.title3).bold() }
+                VStack(alignment: .trailing) { 
+                    Text("Total Pages").font(.caption).foregroundStyle(.secondary)
+                    Text("\(book.totalPages ?? 0)").font(.title3).bold() 
+                }
             }
             HStack {
                 TextField("Enter page", text: $progressInput).keyboardType(.numberPad)
@@ -70,7 +74,20 @@ struct BookDetailView: View {
                 Button("Update Progress") {
                     if let p = Int(progressInput) { store.setProgress(bookId: book.id, currentPage: p); progressInput = "" }
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.plain)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 24)
+                .background(
+                    LinearGradient(
+                        colors: [.purple, .blue],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .foregroundStyle(.white)
+                .fontWeight(.semibold)
+                .clipShape(Capsule())
+                .shadow(color: .purple.opacity(0.3), radius: 8, x: 0, y: 4)
             }
         }
     }

@@ -32,6 +32,7 @@ struct LibraryView: View {
                         ScrollView {
                             VStack(spacing: 16) {
                                 headerChips
+                                libraryStats
                                 section(title: "Currently Reading", count: reading.count, collapsed: $collapseReading) {
                                     ForEach(reading) { b in NavigationLink(value: b.id) { BookCard(book: b) } }
                                 }
@@ -198,6 +199,38 @@ private extension LibraryView {
         )
     }
 
+    var libraryStats: some View {
+        Card {
+            HStack(spacing: 20) {
+                stat(number: String(store.books.filter { $0.status == .finished }.count), label: "Finished", gradient: [.green, .mint], icon: "checkmark.circle.fill")
+                Divider().frame(height: 40)
+                stat(number: String(store.totalReadPages), label: "Pages Read", gradient: [.blue, .cyan], icon: "book.fill")
+                Divider().frame(height: 40)
+                stat(number: String(format: "%.1f", store.averageRating), label: "Avg Rating", gradient: [.orange, .yellow], icon: "star.fill")
+            }
+        }
+    }
+
+    func stat(number: String, label: String, gradient: [Color], icon: String) -> some View {
+        VStack(spacing: 6) {
+            ZStack {
+                Circle()
+                    .fill(LinearGradient(colors: gradient, startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 36, height: 36)
+                Image(systemName: icon)
+                    .font(.subheadline)
+                    .foregroundStyle(.white)
+            }
+            Text(number)
+                .font(.headline).bold()
+                .foregroundStyle(LinearGradient(colors: gradient, startPoint: .leading, endPoint: .trailing))
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
     func statusChip(count: Int, label: String, gradient: [Color], icon: String) -> some View {
         HStack(spacing: 8) {
             ZStack {
@@ -358,21 +391,11 @@ private struct BookCard: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     
-                    if let current = book.currentPage, let total = book.totalPages, book.status != .finished {
-                        VStack(spacing: 6) {
-                            HStack {
-                                Text("\(current) / \(total) pages")
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.secondary)
-                                Spacer()
-                                Text("\(book.progressPercent)%")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.tint)
-                            }
-                            LinearProgressBar(progress: Double(book.progressPercent) / 100.0)
-                        }
+                    if let current = book.currentPage, let total = book.totalPages {
+                        Text("\(current) / \(total) pages")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.secondary)
                     }
                     
                     HStack(spacing: 8) {
