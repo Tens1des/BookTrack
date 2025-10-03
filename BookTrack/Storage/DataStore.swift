@@ -100,6 +100,7 @@ final class DataStore: ObservableObject {
     func setSettings(_ new: UserSettings) {
         settings = new
         saveSettings()
+        print("🌍 Language changed to: \(new.language.rawValue)")
     }
     
     func checkAchievements() {

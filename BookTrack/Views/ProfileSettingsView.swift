@@ -21,7 +21,7 @@ struct ProfileSettingsView: View {
                 ScrollView {
                     ProfileHeaderView(showEditProfile: $showEditProfileSheet)
 
-                    ProfileSectionHeader(title: "READING STATS")
+                            ProfileSectionHeader(title: LocalizedStrings.readingStats(store.settings.language))
                     ReadingStatsCard(
                         booksRead: store.books.filter { $0.status == .finished }.count,
                         pagesRead: store.totalReadPages,
@@ -29,7 +29,11 @@ struct ProfileSettingsView: View {
                     )
                     .padding(.horizontal, 16)
 
-                    ProfileSectionHeader(title: "PREFERENCES")
+                            ProfileSectionHeader(title: LocalizedStrings.preferences(store.settings.language))
+                    
+                    // Debug section
+              
+                    
                     VStack(spacing: 12) {
                         // Dark Mode Card
                         Card {
@@ -51,12 +55,12 @@ struct ProfileSettingsView: View {
                                 }
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Dark Mode")
+                                    Text(LocalizedStrings.darkMode(store.settings.language))
                                         .font(.headline)
                                         .fontWeight(.semibold)
-                                    Text("Switch to dark theme")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
+                                            Text(LocalizedStrings.switchToDarkTheme(store.settings.language))
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
                                 }
                                 
                                 Spacer()
@@ -95,30 +99,30 @@ struct ProfileSettingsView: View {
                                         .foregroundStyle(.white)
                                 }
                                 
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Language")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                    Text("Choose app language")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(LocalizedStrings.language(store.settings.language))
+                                                .font(.headline)
+                                                .fontWeight(.semibold)
+                                            Text(LocalizedStrings.chooseAppLanguage(store.settings.language))
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                        }
                                 
                                 Spacer()
                                 
-                                Picker("Language", selection: Binding(
-                                    get: { store.settings.language },
-                                    set: { store.setSettings(UserSettings(
-                                        language: $0,
-                                        theme: store.settings.theme,
-                                        textSize: store.settings.textSize,
-                                        profile: store.settings.profile
-                                    ))}
-                                )) {
-                                    ForEach(AppLanguage.allCases) { lang in
-                                        Text(lang.rawValue.capitalized).tag(lang)
-                                    }
-                                }
+                                        Picker("Language", selection: Binding(
+                                            get: { store.settings.language },
+                                            set: { store.setSettings(UserSettings(
+                                                language: $0,
+                                                theme: store.settings.theme,
+                                                textSize: store.settings.textSize,
+                                                profile: store.settings.profile
+                                            ))}
+                                        )) {
+                                            ForEach(AppLanguage.allCases) { lang in
+                                                Text(lang == .english ? "English" : "Русский").tag(lang)
+                                            }
+                                        }
                                 .pickerStyle(.menu)
                                 .tint(.blue)
                             }
@@ -144,12 +148,12 @@ struct ProfileSettingsView: View {
                                 }
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Text Size")
+                                    Text(LocalizedStrings.textSize(store.settings.language))
                                         .font(.headline)
                                         .fontWeight(.semibold)
-                                    Text("Adjust font size")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
+                                            Text(LocalizedStrings.adjustFontSize(store.settings.language))
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
                                 }
                                 
                                 Spacer()
@@ -174,17 +178,18 @@ struct ProfileSettingsView: View {
                     }
                     .padding(.horizontal, 16)
                     
-                    ProfileSectionHeader(title: "ACHIEVEMENTS")
+                            ProfileSectionHeader(title: LocalizedStrings.achievements(store.settings.language))
                     AchievementsView()
                         .padding(.horizontal, 16)
                 }
             }
-            .navigationTitle("Profile")
+                    .navigationTitle(LocalizedStrings.profile(store.settings.language))
             .navigationBarHidden(true)
             .sheet(isPresented: $showEditProfileSheet) {
                 EditProfileView()
             }
         }
+        .id(store.settings.language)
     }
 }
 

@@ -27,7 +27,7 @@ struct EditProfileView: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 2))
                         
-                        Text("Current Avatar")
+                                Text(LocalizedStrings.currentAvatar(store.settings.language))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -35,16 +35,16 @@ struct EditProfileView: View {
                     
                     // Name Input
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Display Name")
-                            .font(.headline)
-                        TextField("Enter your name", text: $displayName)
+                                Text(LocalizedStrings.displayName(store.settings.language))
+                                    .font(.headline)
+                                TextField(LocalizedStrings.enterName(store.settings.language), text: $displayName)
                             .textFieldStyle(.roundedBorder)
                     }
                     .padding(.horizontal, 16)
                     
                     // Avatar Selection
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Choose Avatar")
+                                Text(LocalizedStrings.chooseAvatar(store.settings.language))
                             .font(.headline)
                             .padding(.horizontal, 16)
                         
@@ -73,16 +73,16 @@ struct EditProfileView: View {
                 }
                 .padding(.bottom, 20)
             }
-            .navigationTitle("Edit Profile")
+                    .navigationTitle(LocalizedStrings.editProfile(store.settings.language))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { dismiss() }
+                    Button(LocalizedStrings.cancel(store.settings.language)) { dismiss() }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(LocalizedStrings.save(store.settings.language)) {
                         var updatedProfile = store.settings.profile
-                        updatedProfile.displayName = displayName.isEmpty ? "Book Lover" : displayName
+                                updatedProfile.displayName = displayName.isEmpty ? LocalizedStrings.bookLover(store.settings.language) : displayName
                         updatedProfile.avatarSymbol = avatarSymbol
                         store.setSettings(UserSettings(
                             language: store.settings.language,
@@ -96,6 +96,7 @@ struct EditProfileView: View {
                 }
             }
         }
+        .id(store.settings.language)
         .onAppear {
             displayName = store.settings.profile.displayName
             avatarSymbol = store.settings.profile.avatarSymbol

@@ -1,0 +1,94 @@
+/* Common */
+"library" = "Library";
+"statistics" = "Statistics";
+"profile" = "Profile";
+"add_book" = "Add Book";
+"save" = "Save";
+"cancel" = "Cancel";
+"delete" = "Delete";
+"edit" = "Edit";
+
+/* Book Status */
+"reading" = "Reading";
+"finished" = "Finished";
+"to_read" = "To Read";
+"planning" = "Planning";
+
+/* Book Details */
+"title" = "Title";
+"author" = "Author";
+"total_pages" = "Total Pages";
+"current_page" = "Current Page";
+"genre" = "Genre";
+"rating" = "Rating";
+"notes" = "Notes";
+"progress" = "Status";
+"started" = "Started";
+"pages" = "pages";
+"unknown" = "Unknown";
+
+/* Statistics */
+"books_read" = "Books Read";
+"pages_read" = "Pages Read";
+"average_rating" = "Avg Rating";
+"reading_goals" = "Reading Goals";
+"achievements" = "Achievements";
+"my_library" = "My Library";
+"books_in_collection" = "books in your collection";
+"your_reading_overview" = "Your Reading Overview";
+
+/* Settings */
+"settings" = "Settings";
+"language" = "Language";
+"theme" = "Theme";
+"text_size" = "Text Size";
+"dark_mode" = "Dark Mode";
+"light_mode" = "Light Mode";
+"system_theme" = "System";
+"choose_app_language" = "Choose app language";
+"switch_to_dark_theme" = "Switch to dark theme";
+"adjust_font_size" = "Adjust font size";
+"preferences" = "PREFERENCES";
+"reading_stats" = "READING STATS";
+
+/* Actions */
+"mark_as_finished" = "Mark as Finished";
+"update_progress" = "Update Progress";
+"add_to_favorites" = "Add to Favorites";
+"edit_profile" = "Edit Profile";
+"delete_book" = "Delete Book";
+"enter_page" = "Enter page";
+"add_note" = "Add";
+"add_note_placeholder" = "Add a note...";
+
+/* Profile */
+"display_name" = "Display Name";
+"enter_name" = "Enter your name";
+"choose_avatar" = "Choose Avatar";
+"current_avatar" = "Current Avatar";
+"book_lover" = "Book Lover";
+"member_since" = "Member since";
+
+/* Reading Stats */
+"your_reading_journey" = "Your Reading Journey";
+"finished" = "Finished";
+
+/* Progress */
+"reading_progress" = "Reading Progress";
+"started_reading" = "Started Reading";
+"days_reading" = "Days Reading";
+"quick_tip" = "Quick Tip";
+"current_pace_tip" = "At your current pace, you'll finish this book soon.";
+
+/* Form */
+"enter_book_title" = "Enter book title";
+"author_name" = "Author name";
+"select_genre" = "Select genre";
+"start_date" = "Start Date";
+"end_date" = "End Date";
+"add_thoughts_review" = "Add your thoughts, quotes, or review...";
+
+/* Empty State */
+"no_books_yet" = "No books yet";
+"start_reading" = "Start your reading journey";
+"add_first_book" = "Add your first book";

@@ -13,12 +13,19 @@ struct ContentView: View {
     var body: some View {
         TabView {
             LibraryView()
-                .tabItem { Label("Library", systemImage: "books.vertical") }
+                .tabItem { 
+                    Label(LocalizedStrings.library(store.settings.language), systemImage: "books.vertical") 
+                }
             StatsGoalsView()
-                .tabItem { Label("Stats", systemImage: "chart.bar") }
+                .tabItem { 
+                    Label(LocalizedStrings.statistics(store.settings.language), systemImage: "chart.bar") 
+                }
             ProfileSettingsView()
-                .tabItem { Label("Profile", systemImage: "person.circle") }
+                .tabItem { 
+                    Label(LocalizedStrings.profile(store.settings.language), systemImage: "person.circle") 
+                }
         }
+        .id(store.settings.language)
         .background(
             LinearGradient(
                 colors: [

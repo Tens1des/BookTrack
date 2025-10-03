@@ -19,11 +19,11 @@ struct ProfileHeaderView: View {
                 .font(.title2).bold()
                 .foregroundStyle(.white)
 
-            Text("Member since \(store.settings.profile.createdAt.formatted(date: .abbreviated, time: .omitted))")
+            Text("\(LocalizedStrings.memberSince(store.settings.language)) \(store.settings.profile.createdAt.formatted(date: .abbreviated, time: .omitted))")
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.7))
 
-            Button("Edit Profile") {
+            Button(LocalizedStrings.editProfile(store.settings.language)) {
                 showEditProfile = true
             }
             .font(.subheadline).bold()
@@ -46,6 +46,7 @@ struct ProfileHeaderView: View {
 }
 
 struct ReadingStatsCard: View {
+    @EnvironmentObject var store: DataStore
     let booksRead: Int
     let pagesRead: Int
     let avgRating: Double
@@ -54,7 +55,7 @@ struct ReadingStatsCard: View {
         Card {
             VStack(spacing: 16) {
                 HStack {
-                    Text("Your Reading Journey")
+                        Text(LocalizedStrings.yourReadingJourney(store.settings.language))
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
@@ -65,7 +66,7 @@ struct ReadingStatsCard: View {
                 HStack(spacing: 0) {
                     StatColumn(
                         value: String(booksRead), 
-                        label: "Books Read", 
+                        label: LocalizedStrings.booksRead(store.settings.language), 
                         gradient: [.blue, .cyan],
                         icon: "book.fill"
                     )
@@ -95,7 +96,7 @@ struct ReadingStatsCard: View {
                         )
                     StatColumn(
                         value: String(format: "%.1f", avgRating), 
-                        label: "Avg Rating", 
+                        label: LocalizedStrings.averageRating(store.settings.language), 
                         gradient: [.orange, .yellow],
                         icon: "star.fill"
                     )

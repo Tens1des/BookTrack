@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BookDetailView: View {
     @EnvironmentObject private var store: DataStore
+    @Environment(\.dismiss) private var dismiss
     let bookId: UUID
     @State private var progressInput: String = ""
     @State private var noteInput: String = ""
@@ -37,7 +38,7 @@ struct BookDetailView: View {
                             .overlay(Text(initials(book)).foregroundStyle(.white).bold())
                         VStack(alignment: .leading, spacing: 6) {
                             Text(book.title).font(.title2).bold().foregroundStyle(.white)
-                            Text(book.author ?? "Unknown").foregroundStyle(.white.opacity(0.9))
+                            Text(book.author ?? LocalizedStrings.unknown(store.settings.language)).foregroundStyle(.white.opacity(0.9))
                             HStack(spacing: 8) {
                                 PillTag(text: book.genre ?? "Fiction", systemImage: nil, color: .white)
                                 PillTag(text: statusText(book.status), systemImage: nil, color: .white)
@@ -59,19 +60,19 @@ struct BookDetailView: View {
         Card {
             HStack {
                 VStack(alignment: .leading) { 
-                    Text("Current Page").font(.caption).foregroundStyle(.secondary)
+                    Text(LocalizedStrings.currentPage(store.settings.language)).font(.caption).foregroundStyle(.secondary)
                     Text("\(book.currentPage ?? 0)").font(.title3).bold() 
                 }
                 Spacer()
                 VStack(alignment: .trailing) { 
-                    Text("Total Pages").font(.caption).foregroundStyle(.secondary)
+                    Text(LocalizedStrings.totalPages(store.settings.language)).font(.caption).foregroundStyle(.secondary)
                     Text("\(book.totalPages ?? 0)").font(.title3).bold() 
                 }
             }
             HStack {
-                TextField("Enter page", text: $progressInput).keyboardType(.numberPad)
+                TextField(LocalizedStrings.enterPage(store.settings.language), text: $progressInput).keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
-                Button("Update Progress") {
+                Button(LocalizedStrings.updateProgress(store.settings.language)) {
                     if let p = Int(progressInput) { store.setProgress(bookId: book.id, currentPage: p); progressInput = "" }
                 }
                 .buttonStyle(.plain)
@@ -94,20 +95,20 @@ struct BookDetailView: View {
 
     private func statsCard(_ book: Book) -> some View {
         Card {
-            Text("Reading Stats").font(.subheadline).bold()
-            HStack { Image(systemName: "calendar"); VStack(alignment: .leading) { Text("Started Reading").font(.caption).foregroundStyle(.secondary); Text(book.startDate?.formatted(date: .abbreviated, time: .omitted) ?? "—") } ; Spacer() }
-            HStack { Image(systemName: "clock"); VStack(alignment: .leading) { Text("Days Reading").font(.caption).foregroundStyle(.secondary); Text(daysReading(book)) } ; Spacer() }
+            Text(LocalizedStrings.readingProgress(store.settings.language)).font(.subheadline).bold()
+            HStack { Image(systemName: "calendar"); VStack(alignment: .leading) { Text(LocalizedStrings.startedReading(store.settings.language)).font(.caption).foregroundStyle(.secondary); Text(book.startDate?.formatted(date: .abbreviated, time: .omitted) ?? "—") } ; Spacer() }
+            HStack { Image(systemName: "clock"); VStack(alignment: .leading) { Text(LocalizedStrings.daysReading(store.settings.language)).font(.caption).foregroundStyle(.secondary); Text(daysReading(book)) } ; Spacer() }
         }
     }
 
     private var notesCard: some View {
         Card {
-            HStack { Text("Notes & Thoughts").font(.subheadline).bold(); Spacer(); }
+            HStack { Text(LocalizedStrings.notes(store.settings.language)).font(.subheadline).bold(); Spacer(); }
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(book?.notes ?? []) { n in Text(n.text).font(.subheadline) }
                 HStack {
-                    TextField("Add a note...", text: $noteInput).textFieldStyle(.roundedBorder)
-                    Button("Add") { addNote() }
+                    TextField(LocalizedStrings.addNotePlaceholder(store.settings.language), text: $noteInput).textFieldStyle(.roundedBorder)
+                    Button(LocalizedStrings.addNote(store.settings.language)) { addNote() }
                         .buttonStyle(.bordered)
                 }
             }
@@ -115,15 +116,20 @@ struct BookDetailView: View {
     }
 
     private var tipCard: some View {
-        Card { HStack { Image(systemName: "lightbulb"); Text("Quick Tip").bold(); Spacer() }; Text("At your current pace, you'll finish this book soon.").font(.footnote).foregroundStyle(.secondary) }
+        Card { HStack { Image(systemName: "lightbulb"); Text(LocalizedStrings.quickTip(store.settings.language)).bold(); Spacer() }; Text(LocalizedStrings.currentPaceTip(store.settings.language)).font(.footnote).foregroundStyle(.secondary) }
     }
 
     private var footerActions: some View {
         HStack {
-            Button("Mark as Finished") { if let id = book?.id { store.finishBook(bookId: id, rating: nil) } }
+            Button(LocalizedStrings.markAsFinished(store.settings.language)) { if let id = book?.id { store.finishBook(bookId: id, rating: nil) } }
                 .buttonStyle(.bordered)
             Spacer()
-            Button("Delete Book", role: .destructive) { if let id = book?.id { store.deleteBooks(ids: [id]) } }
+            Button(LocalizedStrings.delete(store.settings.language), role: .destructive) { 
+                if let id = book?.id { 
+                    store.deleteBooks(ids: [id])
+                    dismiss()
+                }
+            }
                 .buttonStyle(.bordered)
         }
     }

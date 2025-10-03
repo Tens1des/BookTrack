@@ -30,23 +30,24 @@ struct LinearProgressBar: View {
     let progress: Double // 0...1
     var body: some View {
         ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(Color.gray.opacity(0.15))
-                .frame(height: 8)
+            // Background track
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(0.1))
+                .frame(height: 6)
             
-            RoundedRectangle(cornerRadius: 6)
+            // Progress fill with gradient
+            RoundedRectangle(cornerRadius: 4)
                 .fill(
                     LinearGradient(
-                        colors: [Color.accentColor, Color.accentColor.opacity(0.8)],
+                        colors: [.purple.opacity(0.8), .blue.opacity(0.8)],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
                 )
-                .frame(width: max(0, min(1, progress)) * 1)
                 .modifier(WidthReader(progress: progress))
                 .animation(.easeInOut(duration: 0.3), value: progress)
         }
-        .frame(height: 8)
+        .frame(height: 6)
     }
 }
 
@@ -162,18 +163,55 @@ struct StatusPill: View {
     let title: String
     let icon: String
     let isSelected: Bool
+    
+    private var iconColor: Color {
+        if !isSelected { return .gray }
+        switch title {
+        case "To Read": return .purple
+        case "Reading": return .blue
+        case "Done": return .green
+        default: return .primary
+        }
+    }
+    
+    private var backgroundColor: Color {
+        if !isSelected { return Color.gray.opacity(0.12) }
+        switch title {
+        case "To Read": return .purple.opacity(0.1)
+        case "Reading": return .blue.opacity(0.1)
+        case "Done": return .green.opacity(0.1)
+        default: return Color.primary.opacity(0.1)
+        }
+    }
+    
+    private var borderColor: Color {
+        if !isSelected { return .clear }
+        switch title {
+        case "To Read": return .purple
+        case "Reading": return .blue
+        case "Done": return .green
+        default: return .primary
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: icon)
+                .foregroundStyle(iconColor)
             Text(title)
+                .foregroundStyle(isSelected ? iconColor : .primary)
         }
         .font(.subheadline)
-        .foregroundStyle(isSelected ? .white : .primary)
+        .fontWeight(isSelected ? .semibold : .regular)
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 14)
-                .fill(isSelected ? Color.primary.opacity(0.9) : Color.gray.opacity(0.12))
+                .fill(backgroundColor)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(borderColor, lineWidth: isSelected ? 2 : 0)
         )
     }
 }

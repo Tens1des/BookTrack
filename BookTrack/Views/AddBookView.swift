@@ -23,40 +23,40 @@ struct AddBookView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     // Title
-                    FieldLabel(text: "Title", required: true)
-                    InputContainer { TextField("Enter book title", text: $title) }
+                    FieldLabel(text: LocalizedStrings.title(store.settings.language), required: true)
+                    InputContainer { TextField(LocalizedStrings.enterBookTitle(store.settings.language), text: $title) }
 
                     // Author
-                    FieldLabel(text: "Author")
-                    InputContainer { TextField("Author name", text: $author) }
+                    FieldLabel(text: LocalizedStrings.author(store.settings.language))
+                    InputContainer { TextField(LocalizedStrings.authorName(store.settings.language), text: $author) }
 
                     // Status
-                    FieldLabel(text: "Status", required: true)
+                    FieldLabel(text: LocalizedStrings.progress(store.settings.language), required: true)
                     HStack(spacing: 12) {
                         Button { status = .planning } label: {
-                            StatusPill(title: "To Read", icon: "bookmark.fill", isSelected: status == .planning)
+                            StatusPill(title: LocalizedStrings.toRead(store.settings.language), icon: "bookmark.fill", isSelected: status == .planning)
                         }
                         Button { status = .reading } label: {
-                            StatusPill(title: "Reading", icon: "book", isSelected: status == .reading)
+                            StatusPill(title: LocalizedStrings.reading(store.settings.language), icon: "book.fill", isSelected: status == .reading)
                         }
                         Button { status = .finished } label: {
-                            StatusPill(title: "Done", icon: "checkmark", isSelected: status == .finished)
+                            StatusPill(title: LocalizedStrings.finished(store.settings.language), icon: "checkmark.circle.fill", isSelected: status == .finished)
                         }
                     }
 
                     // Total pages
-                    FieldLabel(text: "Total Pages")
+                    FieldLabel(text: LocalizedStrings.totalPages(store.settings.language))
                     InputContainer {
                         TextField("350", text: $totalPages).keyboardType(.numberPad)
                     }
 
                     // Genre
-                    FieldLabel(text: "Genre")
-                    InputContainer { TextField("Select genre", text: $genre) }
+                    FieldLabel(text: LocalizedStrings.genre(store.settings.language))
+                    InputContainer { TextField(LocalizedStrings.selectGenre(store.settings.language), text: $genre) }
 
                     // Dates & Progress
                     if status == .reading || status == .finished {
-                        FieldLabel(text: "Start Date")
+                        FieldLabel(text: LocalizedStrings.startDate(store.settings.language))
                         InputContainer {
                             DatePicker(
                                 "",
@@ -67,7 +67,7 @@ struct AddBookView: View {
                             ).labelsHidden()
                         }
                         if status == .finished {
-                            FieldLabel(text: "End Date")
+                            FieldLabel(text: LocalizedStrings.endDate(store.settings.language))
                             InputContainer {
                                 DatePicker(
                                     "",
@@ -78,7 +78,7 @@ struct AddBookView: View {
                                 ).labelsHidden()
                             }
                         }
-                        FieldLabel(text: "Current Page")
+                        FieldLabel(text: LocalizedStrings.currentPage(store.settings.language))
                         InputContainer {
                             TextField("120", text: $currentPage).keyboardType(.numberPad)
                         }
@@ -86,28 +86,28 @@ struct AddBookView: View {
 
                     // Rating
                     if status == .finished {
-                        FieldLabel(text: "Rating")
+                        FieldLabel(text: LocalizedStrings.rating(store.settings.language))
                         InputContainer {
                             Stepper(value: $rating, in: 0...10) { Text("Rating: \(rating)") }
                         }
                     }
 
                     // Notes
-                    FieldLabel(text: "Notes / Review")
+                    FieldLabel(text: LocalizedStrings.notes(store.settings.language))
                     VStack(alignment: .leading, spacing: 8) {
-                        TextField("Add your thoughts, quotes, or review...", text: $note, axis: .vertical)
+                        TextField(LocalizedStrings.addThoughtsReview(store.settings.language), text: $note, axis: .vertical)
                             .lineLimit(5, reservesSpace: true)
                             .padding(12)
                             .background(RoundedRectangle(cornerRadius: 12).fill(.background))
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2)))
-                        InputContainer { Toggle("Add to Favorites", isOn: $isFavorite) }
+                        InputContainer { Toggle(LocalizedStrings.addToFavorites(store.settings.language), isOn: $isFavorite) }
                     }
 
                     if let error { Text(error).font(.footnote).foregroundStyle(.red) }
                 }
                 .padding(16)
             }
-            .navigationTitle("Add Book")
+            .navigationTitle(LocalizedStrings.addBook(store.settings.language))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) { 
                     Button(action: { dismiss() }) { 
@@ -116,10 +116,11 @@ struct AddBookView: View {
                     } 
                 }
                 ToolbarItem(placement: .topBarTrailing) { 
-                    GradientButton(title: "Save", action: save)
+                    GradientButton(title: LocalizedStrings.save(store.settings.language), action: save)
                 }
             }
         }
+        .id(store.settings.language)
     }
 
     private func save() {

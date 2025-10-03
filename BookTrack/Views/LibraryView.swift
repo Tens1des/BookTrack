@@ -33,13 +33,13 @@ struct LibraryView: View {
                             VStack(spacing: 16) {
                                 headerChips
                                 libraryStats
-                                section(title: "Currently Reading", count: reading.count, collapsed: $collapseReading) {
+                                section(title: LocalizedStrings.reading(store.settings.language), count: reading.count, collapsed: $collapseReading) {
                                     ForEach(reading) { b in NavigationLink(value: b.id) { BookCard(book: b) } }
                                 }
-                                section(title: "Finished", count: finished.count, collapsed: $collapseFinished) {
+                                section(title: LocalizedStrings.finished(store.settings.language), count: finished.count, collapsed: $collapseFinished) {
                                     ForEach(finished) { b in NavigationLink(value: b.id) { BookCard(book: b) } }
                                 }
-                                section(title: "Want to Read", count: planning.count, collapsed: $collapsePlanning) {
+                                section(title: LocalizedStrings.toRead(store.settings.language), count: planning.count, collapsed: $collapsePlanning) {
                                     ForEach(planning) { b in NavigationLink(value: b.id) { BookCard(book: b) } }
                                 }
                             }
@@ -53,7 +53,7 @@ struct LibraryView: View {
                     }
                 }
             }
-            .navigationTitle("Library")
+                    .navigationTitle(LocalizedStrings.library(store.settings.language))
             .navigationDestination(for: UUID.self) { id in BookDetailView(bookId: id) }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -61,6 +61,7 @@ struct LibraryView: View {
                 }
             }
         }
+        .id(store.settings.language)
         .sheet(isPresented: $showAdd) { AddBookView() }
     }
 
@@ -89,18 +90,18 @@ struct LibraryView: View {
             }
             
             VStack(spacing: 8) {
-                Text("Your Library Awaits")
+                Text(LocalizedStrings.noBooksYet(store.settings.language))
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundStyle(.primary)
                 
-                Text("Start your reading journey by adding your first book")
+                Text(LocalizedStrings.startReading(store.settings.language))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
             
-            GradientButton(title: "Add Your First Book") { showAdd = true }
+            GradientButton(title: LocalizedStrings.addFirstBook(store.settings.language)) { showAdd = true }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 32)
@@ -112,11 +113,11 @@ private extension LibraryView {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("My Library")
+                    Text(LocalizedStrings.myLibrary(store.settings.language))
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(.primary)
-                    Text("\(store.books.count) books in your collection")
+                    Text("\(store.books.count) \(LocalizedStrings.booksInCollection(store.settings.language))")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -141,21 +142,21 @@ private extension LibraryView {
             HStack(spacing: 12) {
                 statusChip(
                     count: reading.count,
-                    label: "Reading",
+                    label: LocalizedStrings.reading(store.settings.language),
                     gradient: [.blue, .cyan],
                     icon: "book.fill"
                 )
                 
                 statusChip(
                     count: finished.count,
-                    label: "Finished",
+                    label: LocalizedStrings.finished(store.settings.language),
                     gradient: [.green, .mint],
                     icon: "checkmark.circle.fill"
                 )
                 
                 statusChip(
                     count: planning.count,
-                    label: "Planning",
+                    label: LocalizedStrings.planning(store.settings.language),
                     gradient: [.purple, .indigo],
                     icon: "bookmark.fill"
                 )
@@ -202,11 +203,11 @@ private extension LibraryView {
     var libraryStats: some View {
         Card {
             HStack(spacing: 20) {
-                stat(number: String(store.books.filter { $0.status == .finished }.count), label: "Finished", gradient: [.green, .mint], icon: "checkmark.circle.fill")
+                stat(number: String(store.books.filter { $0.status == .finished }.count), label: LocalizedStrings.finishedBooks(store.settings.language), gradient: [.green, .mint], icon: "checkmark.circle.fill")
                 Divider().frame(height: 40)
-                stat(number: String(store.totalReadPages), label: "Pages Read", gradient: [.blue, .cyan], icon: "book.fill")
+                stat(number: String(store.totalReadPages), label: LocalizedStrings.pagesRead(store.settings.language), gradient: [.blue, .cyan], icon: "book.fill")
                 Divider().frame(height: 40)
-                stat(number: String(format: "%.1f", store.averageRating), label: "Avg Rating", gradient: [.orange, .yellow], icon: "star.fill")
+                stat(number: String(format: "%.1f", store.averageRating), label: LocalizedStrings.averageRating(store.settings.language), gradient: [.orange, .yellow], icon: "star.fill")
             }
         }
     }
@@ -365,9 +366,10 @@ private extension LibraryView {
     }
 }
 
-private struct BookCard: View {
-    let book: Book
-    var body: some View {
+            private struct BookCard: View {
+                let book: Book
+                @EnvironmentObject private var store: DataStore
+                var body: some View {
         Card {
             HStack(alignment: .top, spacing: 16) {
                 cover
@@ -386,27 +388,49 @@ private struct BookCard: View {
                         }
                     }
                     
-                    Text(book.author ?? "Unknown")
+                                Text(book.author ?? LocalizedStrings.unknown(store.settings.language))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     
                     if let current = book.currentPage, let total = book.totalPages {
-                        Text("\(current) / \(total) pages")
-                            .font(.caption)
-                            .fontWeight(.medium)
+                        VStack(spacing: 6) {
+                            HStack {
+                                Text("\(current) / \(total) \(LocalizedStrings.pages(store.settings.language))")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text("\(book.progressPercent)%")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [.purple, .blue],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                            }
+                            LinearProgressBar(progress: Double(book.progressPercent) / 100.0)
+                        }
+                    }
+                    
+                    if let startDate = book.startDate {
+                        Text("\(LocalizedStrings.started(store.settings.language)) \(startDate.formatted(date: .abbreviated, time: .omitted))")
+                            .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
                     
-                    HStack(spacing: 8) {
-                        switch book.status {
-                        case .reading:
-                            PillTag(text: "Reading", systemImage: "book.fill", color: .blue)
-                        case .finished:
-                            PillTag(text: "Finished", systemImage: "checkmark.circle.fill", color: .green)
-                        case .planning:
-                            PillTag(text: "To Read", systemImage: "bookmark.fill", color: .purple)
-                        }
+                                HStack(spacing: 8) {
+                                    switch book.status {
+                                    case .reading:
+                                        PillTag(text: LocalizedStrings.reading(store.settings.language), systemImage: "book.fill", color: .blue)
+                                    case .finished:
+                                        PillTag(text: LocalizedStrings.finished(store.settings.language), systemImage: "checkmark.circle.fill", color: .green)
+                                    case .planning:
+                                        PillTag(text: LocalizedStrings.toRead(store.settings.language), systemImage: "bookmark.fill", color: .purple)
+                                    }
                         
                         if let genre = book.genre {
                             PillTag(text: genre, systemImage: nil, color: .gray)

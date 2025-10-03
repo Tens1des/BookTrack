@@ -1,0 +1,94 @@
+/* Common */
+"library" = "Библиотека";
+"statistics" = "Статистика";
+"profile" = "Профиль";
+"add_book" = "Добавить книгу";
+"save" = "Сохранить";
+"cancel" = "Отмена";
+"delete" = "Удалить";
+"edit" = "Редактировать";
+
+/* Book Status */
+"reading" = "Читаю";
+"finished" = "Прочитано";
+"to_read" = "К прочтению";
+"planning" = "Планирую";
+
+/* Book Details */
+"title" = "Название";
+"author" = "Автор";
+"total_pages" = "Всего страниц";
+"current_page" = "Текущая страница";
+"genre" = "Жанр";
+"rating" = "Оценка";
+"notes" = "Заметки";
+"progress" = "Статус";
+"started" = "Начал";
+"pages" = "страниц";
+"unknown" = "Неизвестно";
+
+/* Statistics */
+"books_read" = "Прочитано книг";
+"pages_read" = "Прочитано страниц";
+"average_rating" = "Средняя оценка";
+"reading_goals" = "Цели чтения";
+"achievements" = "Достижения";
+"my_library" = "Моя библиотека";
+"books_in_collection" = "книг в коллекции";
+"your_reading_overview" = "Обзор чтения";
+
+/* Settings */
+"settings" = "Настройки";
+"language" = "Язык";
+"theme" = "Тема";
+"text_size" = "Размер текста";
+"dark_mode" = "Тёмная тема";
+"light_mode" = "Светлая тема";
+"system_theme" = "Системная";
+"choose_app_language" = "Выберите язык приложения";
+"switch_to_dark_theme" = "Переключиться на тёмную тему";
+"adjust_font_size" = "Настроить размер шрифта";
+"preferences" = "НАСТРОЙКИ";
+"reading_stats" = "СТАТИСТИКА ЧТЕНИЯ";
+
+/* Actions */
+"mark_as_finished" = "Отметить как прочитанную";
+"update_progress" = "Обновить прогресс";
+"add_to_favorites" = "Добавить в избранное";
+"edit_profile" = "Редактировать профиль";
+"delete_book" = "Удалить книгу";
+"enter_page" = "Введите страницу";
+"add_note" = "Добавить";
+"add_note_placeholder" = "Добавить заметку...";
+
+/* Profile */
+"display_name" = "Имя";
+"enter_name" = "Введите ваше имя";
+"choose_avatar" = "Выберите аватар";
+"current_avatar" = "Текущий аватар";
+"book_lover" = "Любитель книг";
+"member_since" = "Участник с";
+
+/* Reading Stats */
+"your_reading_journey" = "Ваше путешествие в чтении";
+"finished" = "Прочитано";
+
+/* Progress */
+"reading_progress" = "Прогресс чтения";
+"started_reading" = "Начал читать";
+"days_reading" = "Дней чтения";
+"quick_tip" = "Быстрый совет";
+"current_pace_tip" = "При текущем темпе вы скоро закончите эту книгу.";
+
+/* Form */
+"enter_book_title" = "Введите название книги";
+"author_name" = "Имя автора";
+"select_genre" = "Выберите жанр";
+"start_date" = "Дата начала";
+"end_date" = "Дата окончания";
+"add_thoughts_review" = "Добавьте свои мысли, цитаты или отзыв...";
+
+/* Empty State */
+"no_books_yet" = "Пока нет книг";
+"start_reading" = "Начните своё путешествие в чтении";
+"add_first_book" = "Добавьте первую книгу";

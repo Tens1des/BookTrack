@@ -32,8 +32,9 @@ struct StatsGoalsView: View {
                     .padding(16)
                 }
             }
-            .navigationTitle("Statistics")
+                    .navigationTitle(LocalizedStrings.statistics(store.settings.language))
         }
+        .id(store.settings.language)
     }
 
     private func label(for p: GoalPeriod) -> String { switch p { case .week: return "Week"; case .month: return "Month"; case .year: return "Year" } }
