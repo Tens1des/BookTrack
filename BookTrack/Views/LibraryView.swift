@@ -61,7 +61,6 @@ struct LibraryView: View {
                 }
             }
         }
-        .id(store.settings.language)
         .sheet(isPresented: $showAdd) { AddBookView() }
     }
 

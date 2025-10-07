@@ -32,7 +32,36 @@ struct ProfileSettingsView: View {
                             ProfileSectionHeader(title: LocalizedStrings.preferences(store.settings.language))
                     
                     // Debug section
-              
+                    Card {
+                        VStack(spacing: 12) {
+                            Text("Debug Info")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                            Text("Current language: \(store.settings.language.rawValue)")
+                                .font(.subheadline)
+                            Text("Test: \(LocalizedStrings.library(store.settings.language))")
+                                .font(.subheadline)
+                            Button("Test Russian") {
+                                store.setSettings(UserSettings(
+                                    language: .russian,
+                                    theme: store.settings.theme,
+                                    textSize: store.settings.textSize,
+                                    profile: store.settings.profile
+                                ))
+                            }
+                            .buttonStyle(.bordered)
+                            Button("Test English") {
+                                store.setSettings(UserSettings(
+                                    language: .english,
+                                    theme: store.settings.theme,
+                                    textSize: store.settings.textSize,
+                                    profile: store.settings.profile
+                                ))
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                    .padding(.horizontal, 16)
                     
                     VStack(spacing: 12) {
                         // Dark Mode Card
@@ -189,7 +218,6 @@ struct ProfileSettingsView: View {
                 EditProfileView()
             }
         }
-        .id(store.settings.language)
     }
 }
 

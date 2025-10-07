@@ -25,16 +25,12 @@ struct StatsGoalsView: View {
                         metricsGrid
                         genresBreakdown
                         recentlyFinished
-                        GradientButton(title: "Set New Goal") { }
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 8)
                     }
                     .padding(16)
                 }
             }
                     .navigationTitle(LocalizedStrings.statistics(store.settings.language))
         }
-        .id(store.settings.language)
     }
 
     private func label(for p: GoalPeriod) -> String { switch p { case .week: return "Week"; case .month: return "Month"; case .year: return "Year" } }

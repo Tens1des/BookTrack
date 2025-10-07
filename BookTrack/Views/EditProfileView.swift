@@ -96,7 +96,6 @@ struct EditProfileView: View {
                 }
             }
         }
-        .id(store.settings.language)
         .onAppear {
             displayName = store.settings.profile.displayName
             avatarSymbol = store.settings.profile.avatarSymbol

@@ -120,7 +120,6 @@ struct AddBookView: View {
                 }
             }
         }
-        .id(store.settings.language)
     }
 
     private func save() {
